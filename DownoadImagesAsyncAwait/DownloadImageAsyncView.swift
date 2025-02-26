@@ -20,7 +20,9 @@ struct DownloadImageAsyncView: View {
             }
         }
         .onAppear() {
-            vm.fetchImage()
+            Task {
+              await vm.fetchImage()
+            }
         }
     }
 }

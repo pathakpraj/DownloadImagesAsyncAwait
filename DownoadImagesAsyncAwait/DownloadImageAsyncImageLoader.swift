@@ -40,4 +40,17 @@ class DownloadImageAsyncImageLoader {
                 .eraseToAnyPublisher()
         return publisher
     }
+
+    func downloadWithAsyncAwait() async throws -> UIImage? {
+        if let url = URL(string: "https://picsum.photos/200") {
+            let request = URLRequest(url: url)
+            do {
+                let (data, response) = try await URLSession.shared.data(for: request)
+                return handleResponse(data: data, response: response)
+            } catch {
+                throw error
+            }
+        }
+        return nil
+    }
 }

@@ -14,7 +14,7 @@ class DownloadImageAsyncViewModel: ObservableObject {
     let loader = DownloadImageAsyncImageLoader()
     var cancellables = Set<AnyCancellable>()
 
-    func fetchImage() {
+    func fetchImage() async {
         // hard code image
         //self.image = UIImage(systemName: "heart.fill")
 
@@ -30,6 +30,7 @@ class DownloadImageAsyncViewModel: ObservableObject {
          */
 
         // download image with combine
+        /*
         loader.downloadWithCombine()
             .receive(on: DispatchQueue.main)
             .sink { completion in
@@ -43,7 +44,19 @@ class DownloadImageAsyncViewModel: ObservableObject {
                 self.image = returnedImage
             }
             .store(in: &cancellables)
+         */
 
-
+        // download with async await
+        Task {
+            do {
+                let image = try await self.loader.downloadWithAsyncAwait()
+                await MainActor.run {
+                    self.image = image
+                }
+                
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
