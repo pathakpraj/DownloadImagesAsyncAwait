@@ -35,7 +35,6 @@ class DownloadImageAsyncImageLoader {
 
     func downloadWithCombine() -> AnyPublisher <UIImage?, URLError> {
          let url = URL(string: "https://picsum.photos/200")!
-         let request = URLRequest(url: url)
            let publisher =  URLSession.shared.dataTaskPublisher(for: url)
                 .map(handleResponse)
                 .eraseToAnyPublisher()
